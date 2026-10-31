@@ -85,40 +85,6 @@ export default function DatabaseProblems() {
           />
           {query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search">×</button>}
         </label>
-
-        <div className="problems-filter-group">
-          <span className="problems-filter-label">Difficulty</span>
-          <div className="problems-difficulty-filters" role="group" aria-label="Filter by difficulty">
-            {DIFFICULTIES.map((level) => (
-              <button
-                key={level}
-                type="button"
-                className={`problems-filter-chip ${diff === level ? 'active' : ''} ${level !== 'All' ? `level-${level.toLowerCase()}` : ''}`}
-                aria-pressed={diff === level}
-                onClick={() => setDiff(level)}
-              >
-                {level}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="problems-filter-group">
-          <span className="problems-filter-label">Topics</span>
-          <div className="problems-topic-filters" role="group" aria-label="Filter by topic">
-            {TOPICS.map((item) => (
-              <button
-                key={item}
-                type="button"
-                className={`problems-topic-chip ${topic === item ? 'active' : ''}`}
-                aria-pressed={topic === item}
-                onClick={() => setSp(item === 'All Topics' ? {} : { topic: item })}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        </div>
       </section>
 
       <section className="problems-results" aria-label="SQL problems">
@@ -161,3 +127,4 @@ export default function DatabaseProblems() {
     </main>
   )
 }
+

@@ -145,7 +145,6 @@ export default function Dashboard() {
           </div>
           <nav className="dash-actions" aria-label="Dashboard shortcuts">
             <Link to="/problems" className="btn primary sm"><Code2 size={15} /> Solve Problems</Link>
-            <Link to="/learn" className="btn sm"><BookOpen size={15} /> Learn</Link>
             <Link to="/leaderboard" className="btn sm"><Trophy size={15} /> Leaderboard</Link>
           </nav>
         </header>

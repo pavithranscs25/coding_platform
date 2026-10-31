@@ -28,8 +28,8 @@ const stats = [
 
 const tracks = [
   {
-    title: 'Arrays & Hashing',
-    desc: 'Master two pointers, hash maps, sliding windows, and prefix sums.',
+    title: 'Arrays',
+    desc: 'Master basic indexing, linear searching, array traversal, and fundamental storage.',
     count: '18 Problems',
     link: '/problems?topic=Arrays',
     icon: '📊',
@@ -44,15 +44,7 @@ const tracks = [
     color: '#38bdf8',
   },
   {
-    title: 'Dynamic Programming',
-    desc: 'Learn memoization, tabulations, state transitions, and knapsack variants.',
-    count: '12 Problems',
-    link: '/problems?topic=Dynamic%20Programming',
-    icon: '⚡',
-    color: 'var(--ok)',
-  },
-  {
-    title: 'Strings & Two Pointers',
+    title: 'Strings',
     desc: 'Solve anagrams, palindrome verification, palindromic substrings, and parsing.',
     count: '14 Problems',
     link: '/problems?topic=Strings',
@@ -66,14 +58,6 @@ const tracks = [
     link: '/problems?topic=Loops',
     icon: '🔄',
     color: '#a855f7',
-  },
-  {
-    title: 'Graphs & Searching',
-    desc: 'Traverse graphs with BFS, DFS, Dijkstra, and cycle detection algorithms.',
-    count: '9 Problems',
-    link: '/problems?topic=Graphs',
-    icon: '🌲',
-    color: '#ec4899',
   },
 ]
 
