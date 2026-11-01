@@ -1,11 +1,12 @@
 import initSqlJs from 'sql.js'
+import sqlWasmUrl from 'sql.js/dist/sql-wasm.wasm?url'
 
 let sqlPromise = null
 
 function getSqlEngine() {
   if (!sqlPromise) {
     sqlPromise = initSqlJs({
-      locateFile: (file) => `https://sql.js.org/dist/${file}`,
+      locateFile: () => sqlWasmUrl,
     })
   }
   return sqlPromise
@@ -133,4 +134,3 @@ export async function executeSqlQuery(problem, sqlQuery) {
     }
   }
 }
-
