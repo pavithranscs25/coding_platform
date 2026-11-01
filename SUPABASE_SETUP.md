@@ -4,6 +4,12 @@ This document summarizes the Phase 2A database foundation for the LogicFirst pro
 
 ## Database tables
 
+### `coding_problems` and `sql_problems`
+
+The coding problem list reads from `coding_problems`; the SQL problem list reads from `sql_problems`. Both tables should expose `problem_id`, `title`, `topic`, `difficulty`, `description`, `is_published`, and `sort_order`.
+
+Coding rows also use `examples`, `problem_constraints`, `expected_output`, `public_test_cases`, and `starter_code`. SQL rows use `starter_code`, `schema_data`, and `expected_result`. Only published rows are displayed.
+
 ### profiles
 
 Stores account metadata for each Supabase auth user.
@@ -119,7 +125,15 @@ Never add a service-role key to the frontend environment.
 
 ## Apply migration manually
 
-Open the Supabase SQL Editor and run the migration file:
+Open the Supabase SQL Editor and run the migrations in order. If the problem pages show `permission denied for view coding_problems` or `sql_problems`, run:
+
+```text
+supabase/migrations/006_problem_catalog_read_access.sql
+```
+
+This grants read access to the app's public and signed-in roles. For tables, it also enables row-level security and allows only rows with `is_published = true`. If either relation is a view, make sure the view itself excludes unpublished rows.
+
+For the original database foundation, run:
 
 ```text
 supabase/migrations/001_initial_schema.sql

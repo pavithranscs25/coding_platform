@@ -28,6 +28,7 @@ import { runCode, submitCode } from '../services/runner'
 import { recordAttempt, recordSolved, getProblemStatus } from '../services/progressService'
 import { createSubmission, getMySubmissions } from '../services/submissionService'
 import { fetchProblemCatalog, getFallbackProblemCatalog } from '../services/problemCatalogService'
+import { isSupabaseConfigured } from '../lib/supabaseClient'
 import { getXpForDifficulty } from '../utils/xp'
 import { useAuth } from '../context/AuthContext'
 import NotFound from './NotFound'
@@ -412,6 +413,7 @@ export default function ProblemDetail() {
   const [problem, setProblem] = useState(null)
   const [neighbors, setNeighbors] = useState({ previous: null, next: null })
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(null)
 
   useEffect(() => {
     let active = true
@@ -419,6 +421,7 @@ export default function ProblemDetail() {
     fetchProblemCatalog('CODING')
       .then((catalog) => {
         if (!active) return
+        setLoadError(null)
         const index = catalog.findIndex((item) => Number(item.id) === Number(id))
         setProblem(catalog[index] || null)
         setNeighbors({
@@ -429,13 +432,18 @@ export default function ProblemDetail() {
       .catch((error) => {
         console.error('Unable to load coding problem:', error)
         if (!active) return
-        const catalog = getFallbackProblemCatalog('CODING')
-        const index = catalog.findIndex((item) => Number(item.id) === Number(id))
-        setProblem(catalog[index] || null)
-        setNeighbors({
-          previous: index > 0 ? catalog[index - 1] : null,
-          next: index >= 0 ? catalog[index + 1] || null : null,
-        })
+        if (isSupabaseConfigured) {
+          setProblem(null)
+          setLoadError(error.message || 'Unable to load coding problem from Supabase.')
+        } else {
+          const catalog = getFallbackProblemCatalog('CODING')
+          const index = catalog.findIndex((item) => Number(item.id) === Number(id))
+          setProblem(catalog[index] || null)
+          setNeighbors({
+            previous: index > 0 ? catalog[index - 1] : null,
+            next: index >= 0 ? catalog[index + 1] || null : null,
+          })
+        }
       })
       .finally(() => {
         if (active) setLoading(false)
@@ -452,6 +460,10 @@ export default function ProblemDetail() {
         <p className="mut">Loading problem...</p>
       </div>
     )
+  }
+
+  if (loadError) {
+    return <div className="container center" role="alert" style={{ padding: '80px 20px' }}>Unable to load coding problem: {loadError}</div>
   }
 
   return problem ? <Inner key={problem.id} p={problem} neighbors={neighbors} /> : <NotFound />

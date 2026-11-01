@@ -5,6 +5,7 @@ import DifficultyBadge from '../components/DifficultyBadge'
 import { useAuth } from '../context/AuthContext'
 import { fetchUserProgress, getUserProgress, PROBLEM_STATUS, subscribeToProgress } from '../services/progressService'
 import { fetchProblemCatalog, getFallbackProblemCatalog } from '../services/problemCatalogService'
+import { isSupabaseConfigured } from '../lib/supabaseClient'
 import { getProblemIdentityKey } from '../utils/problemIdentity'
 
 const TOPICS = ['All Topics', 'Loops', 'Arrays', 'Strings']
@@ -15,7 +16,8 @@ export default function Problems() {
   const { user } = useAuth()
   const [diff, setDiff] = useState('All')
   const [query, setQuery] = useState('')
-  const [catalog, setCatalog] = useState(() => getFallbackProblemCatalog('CODING'))
+  const [catalog, setCatalog] = useState(() => isSupabaseConfigured ? [] : getFallbackProblemCatalog('CODING'))
+  const [catalogError, setCatalogError] = useState(null)
   const [progress, setProgress] = useState(() => getUserProgress(user?.id))
   const topic = TOPICS.includes(sp.get('topic')) ? sp.get('topic') : 'All Topics'
 
@@ -23,9 +25,18 @@ export default function Problems() {
     let active = true
     fetchProblemCatalog('CODING')
       .then((nextCatalog) => {
-        if (active) setCatalog(nextCatalog)
+        if (active) {
+          setCatalog(nextCatalog)
+          setCatalogError(null)
+        }
       })
-      .catch((error) => console.error('Unable to load coding problem catalog:', error))
+      .catch((error) => {
+        console.error('Unable to load coding problem catalog:', error)
+        if (active) {
+          setCatalog([])
+          setCatalogError(error.message || 'Unable to load coding problems from Supabase.')
+        }
+      })
 
     return () => { active = false }
   }, [])
@@ -72,6 +83,7 @@ export default function Problems() {
           <span className="problems-progress-label">solved</span>
         </div>
       </header>
+      {catalogError && <p role="alert">Unable to load coding problems: {catalogError}</p>}
 
       <section className="problems-controls" aria-label="Filter problems">
         <label className="problems-search">
