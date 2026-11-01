@@ -7,8 +7,11 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}h1,h2,h3
 .nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd)}
 .nav-in{max-width:1400px;margin:0 auto;height:56px;display:flex;align-items:center;gap:16px;padding:0 20px}
 .logo{display:flex;gap:8px;align-items:center;font-weight:800;font-size:18px}.logo span{color:var(--ac)}
-.links{display:flex;gap:4px;margin-left:auto}.links a{padding:6px 14px;border-radius:8px;color:var(--mut);font-weight:500}
-.links a:hover,.links a.active{color:var(--tx);background:var(--panel2)}
+.links{display:flex;gap:4px;margin-left:auto}.links a{position:relative;padding:6px 14px;border-radius:8px;color:var(--mut);font-weight:500;transition:color .18s ease}
+.links a:not(.btn)::after{position:absolute;right:14px;bottom:3px;left:14px;height:2px;border-radius:2px;background:var(--ac2);content:'';transform:scaleX(0);transform-origin:left;transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.links a:not(.btn):hover,.links a:not(.btn).active,.links a:not(.btn):focus-visible{color:var(--tx);background:transparent}
+.links a:not(.btn):hover::after,.links a:not(.btn).active::after,.links a:not(.btn):focus-visible::after{transform:scaleX(1)}
+@media(prefers-reduced-motion:reduce){.links a,.links a::after{transition:none}}
 .nav-r{display:flex;align-items:center;gap:6px}
 .icon{background:none;border:0;color:var(--mut);padding:8px;border-radius:8px;display:flex}.icon:hover{color:var(--tx);background:var(--panel2)}
 .avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:grid;place-items:center;color:#fff}
