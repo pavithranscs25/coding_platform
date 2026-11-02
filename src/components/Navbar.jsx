@@ -10,7 +10,6 @@ const navLinks = [
   ['/problems', 'Coding'],
   ['/database', 'Database'],
   ['/leaderboard', 'Leaderboard'],
-  ['/dashboard', 'Dashboard'],
 ]
 
 export default function Navbar() {
