@@ -252,22 +252,6 @@ export default function Dashboard() {
             )}
           </article>
         </section>
-
-        <section className="dash-panel dash-lessons-panel">
-          <div className="dash-panel-heading">
-            <div><p className="dash-section-kicker">KEEP LEARNING</p><h2>Recommended lessons</h2></div>
-            <Link to="/learn" className="dash-panel-link">View all <ArrowRight size={14} /></Link>
-          </div>
-          <div className="dash-lesson-grid">
-            {recommendedTopics.map((topic) => (
-              <Link className="dash-lesson-item" key={topic.slug} to={`/learn/${topic.slug}`}>
-                <span className="dash-lesson-icon"><BookOpen size={16} /></span>
-                <span className="dash-lesson-copy"><strong>{topic.title}</strong><small>{topic.desc}</small></span>
-                <ArrowRight size={16} className="dash-lesson-arrow" />
-              </Link>
-            ))}
-          </div>
-        </section>
       </>}
     </main>
   )
