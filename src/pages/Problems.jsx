@@ -8,7 +8,7 @@ import { fetchProblemCatalog, getFallbackProblemCatalog } from '../services/prob
 import { isSupabaseConfigured } from '../lib/supabaseClient'
 import { getProblemIdentityKey } from '../utils/problemIdentity'
 
-const TOPICS = ['All Topics', 'Loops', 'Arrays', 'Strings']
+const TOPICS = ['Loops', 'Arrays', 'Strings']
 //const DIFFICULTIES = ['All', 'Easy', 'Medium', 'Hard']
 
 export default function Problems() {
@@ -19,7 +19,7 @@ export default function Problems() {
   const [catalog, setCatalog] = useState(() => isSupabaseConfigured ? [] : getFallbackProblemCatalog('CODING'))
   const [catalogError, setCatalogError] = useState(null)
   const [progress, setProgress] = useState(() => getUserProgress(user?.id))
-  const topic = TOPICS.includes(sp.get('topic')) ? sp.get('topic') : 'All Topics'
+  const topic = TOPICS.includes(sp.get('topic')) ? sp.get('topic') : null
 
   useEffect(() => {
     let active = true
@@ -60,9 +60,9 @@ export default function Problems() {
   }, [user?.id])
 
   const list = useMemo(() => catalog.filter((problem) => {
-    if (!TOPICS.slice(1).includes(problem.topic)) return false
+    if (!TOPICS.includes(problem.topic)) return false
     const matchesDifficulty = diff === 'All' || problem.difficulty === diff
-    const matchesTopic = topic === 'All Topics' || problem.topic === topic
+    const matchesTopic = !topic || problem.topic === topic
     const searchText = `${problem.title} ${problem.topic} ${problem.description}`.toLowerCase()
     return matchesDifficulty && matchesTopic && searchText.includes(query.trim().toLowerCase())
   }), [catalog, diff, topic, query])
@@ -109,7 +109,7 @@ export default function Problems() {
                 type="button"
                 className={`problems-topic-chip ${topic === item ? 'active' : ''}`}
                 aria-pressed={topic === item}
-                onClick={() => setSp(item === 'All Topics' ? {} : { topic: item })}
+                onClick={() => setSp(topic === item ? {} : { topic: item })}
               >
                 {item}
               </button>
@@ -145,7 +145,12 @@ export default function Problems() {
                 <span className="problems-open" aria-label={`Open ${problem.title}`}><ArrowUpRight size={17} /></span>
               </Link>
             )
-          }) : (
+          }) : catalog.length === 0 && !catalogError ? (
+            <div className="problems-empty">
+              <strong>Problems coming soon</strong>
+              <span>New coding problems will be available here soon.</span>
+            </div>
+          ) : (
             <div className="problems-empty">
               <Search size={22} />
               <strong>No matching problems</strong>

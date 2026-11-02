@@ -126,7 +126,12 @@ export default function DatabaseProblems() {
                 <span className="problems-open" aria-label={`Open ${problem.title}`}><ArrowUpRight size={17} /></span>
               </Link>
             )
-          }) : (
+          }) : catalog.length === 0 && !catalogError ? (
+            <div className="problems-empty">
+              <strong>Problems coming soon</strong>
+              <span>New SQL problems will be available here soon.</span>
+            </div>
+          ) : (
             <div className="problems-empty">
               <Search size={22} />
               <strong>No matching problems</strong>
