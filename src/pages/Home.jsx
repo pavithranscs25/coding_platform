@@ -19,7 +19,7 @@ import { useAuth } from '../context/AuthContext'
 import '../styles/home.css'
 
 const stats = [
-  { label: 'Coding Problems', value: '73+', icon: Code2, color: 'var(--ac)' },
+  { label: 'Coding Problems', value: '70+', icon: Code2, color: 'var(--ac)' },
   { label: 'SQL DB Challenges', value: '15+', icon: Database, color: '#38bdf8' },
   { label: 'XP per Hard Solve', value: '30 XP', icon: Zap, color: 'var(--ok)' },
   { label: 'Hidden Cases per Problem', value: '5 🔒', icon: Lock, color: '#f59e0b' },
