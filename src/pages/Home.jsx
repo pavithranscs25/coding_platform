@@ -30,7 +30,7 @@ const tracks = [
   {
     title: 'Arrays',
     desc: 'Master basic indexing, linear searching, array traversal, and fundamental storage.',
-    count: '18 Problems',
+    count: '0 Problems',
     link: '/problems?topic=Arrays',
     icon: '📊',
     color: 'var(--ac)',
@@ -38,7 +38,7 @@ const tracks = [
   {
     title: 'SQL & Database Engine',
     desc: 'Write real queries, joins, aggregations, and subqueries on live schemas.',
-    count: '15 Problems',
+    count: '0 Problems',
     link: '/database',
     icon: '🗄️',
     color: '#38bdf8',
@@ -46,7 +46,7 @@ const tracks = [
   {
     title: 'Strings',
     desc: 'Solve anagrams, palindrome verification, palindromic substrings, and parsing.',
-    count: '14 Problems',
+    count: '0 Problems',
     link: '/problems?topic=Strings',
     icon: '🔤',
     color: '#f59e0b',
@@ -54,7 +54,7 @@ const tracks = [
   {
     title: 'Loops & Basic Logic',
     desc: 'Perfect for beginners building foundational logic, loops, and math patterns.',
-    count: '15 Problems',
+    count: '0 Problems',
     link: '/problems?topic=Loops',
     icon: '🔄',
     color: '#a855f7',
