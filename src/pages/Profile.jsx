@@ -98,7 +98,14 @@ export default function Profile() {
   }, { Easy: 0, Medium: 0, Hard: 0 })
   const totalProblems = data.codingCatalog.length + data.sqlCatalog.length
   const progressPercentage = totalProblems ? Math.round((solvedRows.length / totalProblems) * 100) : 0
-  const submissionStats = data.submissions || { totalSubmissions: 0, acceptedSubmissions: 0 }
+  const visibleRecentSubmissions = data.recentSubmissions.filter((submission) => {
+    const problemType = submission.problem_type || (submission.language === 'sql' ? 'SQL' : 'CODING')
+    const catalog = problemType === 'SQL' ? data.sqlCatalog : data.codingCatalog
+    return catalog.some((problem) => Number(problem.id) === Number(submission.problem_id))
+  })
+  const submissionStats = totalProblems > 0
+    ? data.submissions || { totalSubmissions: 0, acceptedSubmissions: 0 }
+    : { totalSubmissions: 0, acceptedSubmissions: 0 }
   const acceptanceRate = submissionStats.totalSubmissions
     ? Math.round((submissionStats.acceptedSubmissions / submissionStats.totalSubmissions) * 100)
     : 0
@@ -262,11 +269,11 @@ export default function Profile() {
             <span className="profile-eyebrow">Latest attempts</span>
             <h2 id="profile-activity-title">Recent activity</h2>
           </div>
-          {data.recentSubmissions.length > 0 ? <span className="profile-activity-count">Latest {data.recentSubmissions.length}</span> : null}
+          {visibleRecentSubmissions.length > 0 ? <span className="profile-activity-count">Latest {visibleRecentSubmissions.length}</span> : null}
         </div>
-        {data.recentSubmissions.length > 0 ? (
+        {visibleRecentSubmissions.length > 0 ? (
           <div className="profile-activity-list">
-            {data.recentSubmissions.map((submission) => {
+            {visibleRecentSubmissions.map((submission) => {
               const accepted = submission.status === 'Accepted'
               const failed = ['Wrong Answer', 'Runtime Error', 'Compilation Error', 'Time Limit Exceeded'].includes(submission.status)
               const statusTone = accepted ? 'is-accepted' : failed ? 'is-failed' : 'is-pending'
@@ -295,9 +302,18 @@ export default function Profile() {
         ) : (
           <div className="profile-empty-state">
             <div className="profile-empty-icon"><Code2 size={22} aria-hidden="true" /></div>
-            <h3>No coding activity yet.</h3>
-            <p>Start solving problems to build your LogicFirst profile.</p>
-            <Link className="btn primary sm" to="/problems">Explore problems <ArrowUpRight size={15} aria-hidden="true" /></Link>
+            {totalProblems > 0 ? (
+              <>
+                <h3>No coding activity yet.</h3>
+                <p>Start solving problems to build your LogicFirst profile.</p>
+                <Link className="btn primary sm" to="/problems">Explore problems <ArrowUpRight size={15} aria-hidden="true" /></Link>
+              </>
+            ) : (
+              <>
+                <h3>Problems coming soon</h3>
+                <p>Recent activity will appear here after problems are added.</p>
+              </>
+            )}
           </div>
         )}
       </section>
