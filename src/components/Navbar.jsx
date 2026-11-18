@@ -8,7 +8,7 @@ const navLinks = [
   ['/', 'Home'],
   // ['/learn', 'Learn'],  // temporarily hidden — re-add when Learn section is ready
   ['/problems', 'Coding'],
-  ['/database', 'Database'],
+  ['/database', 'SQL'],
   ['/leaderboard', 'Leaderboard'],
 ]
 
